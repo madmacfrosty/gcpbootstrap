@@ -16,8 +16,8 @@ ARG google_sdk=google-cloud-sdk-224.0.0-linux-x86_64.tar.gz
 ENV https_proxy=${https_proxy}
 ENV http_proxy=${http_proxy}
 
-RUN curl https://github.com/helm/helm/archive/${helm} -o ${helm} \
-  && tar -zxvf ${helm} \
+RUN curl -L https://github.com/helm/helm/archive/${helm} -o ${helm} \
+  && tar -xzvf ${helm} \
   && rm ${helm}
 
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${google_sdk} -o ${google_sdk} \
