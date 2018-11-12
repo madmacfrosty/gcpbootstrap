@@ -67,7 +67,7 @@ cfssl gencert \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
   -profile=kubernetes \
-  tiller-csr.json | cfssljson -bare admin
+  tiller-csr.json | cfssljson -bare tiller
 
 }
 
