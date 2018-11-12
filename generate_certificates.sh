@@ -1,38 +1,73 @@
 #!/usr/bin/env sh
 
-mkdir helm
-cd helm
+mkdir /certificates
+cd /certificates
 
-cat <<EOF | cfssl genkey - | cfssljson -bare tiller
-  "CN": "tiller",
-  "key": {
-    "algo": "ecdsa",
-    "size": 256
+{
+
+cat > ca-config.json <<EOF
+{
+  "signing": {
+    "default": {
+      "expiry": "8760h"
+    },
+    "profiles": {
+      "kubernetes": {
+        "usages": ["signing", "key encipherment", "server auth", "client auth"],
+        "expiry": "8760h"
+      }
+    }
   }
 }
 EOF
 
-cat <<EOF | kubectl create -f -
-apiVersion: certificates.k8s.io/v1beta1
-kind: CertificateSigningRequest
-metadata:
-  name: tiller.tillerworld
-spec:
-  groups:
-  - system:authenticated
-  request: $(cat tiller.csr | base64 | tr -d '\n')
-  usages:
-  - digital signature
-  - key encipherment
-  - server auth
+cat > ca-csr.json <<EOF
+{
+  "CN": "Kubernetes",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "UK",
+      "L": "Edinburgh",
+      "O": "Kubernetes",
+      "OU": "CA"
+    }
+  ]
+}
 EOF
 
-kubectl certificate approve tiller.tillerworld
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+}
 
-# helm init --tiller-tls --tiller-tls-verify \
-          # --tiller-namespace=tillerworld \
-		  # --service-account=tiller \
-          # --tiller-tls-cert ./tiller.cert.pem \
-		  # --tiller-tls-key ./tiller-key.pem \
-		  # --tls-ca-cert ca.cert.pem \
+{
+
+cat > tiller-csr.json <<EOF
+{
+  "CN": "tiller",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "UK",
+      "L": "Edinburgh",
+      "O": "system:masters",
+      "OU": "Tiller"      
+    }
+  ]
+}
+EOF
+
+cfssl gencert \
+  -ca=ca.pem \
+  -ca-key=ca-key.pem \
+  -config=ca-config.json \
+  -profile=kubernetes \
+  tiller-csr.json | cfssljson -bare admin
+
+}
 
