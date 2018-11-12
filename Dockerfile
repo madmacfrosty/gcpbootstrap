@@ -1,5 +1,8 @@
 FROM alpine
 
+COPY initialise_kubectl.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/initialise_kubectl.sh
+
 RUN apk update \
   && apk add ca-certificates \
   && apk add curl \
@@ -21,8 +24,3 @@ RUN curl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 -o cfssl \
   && curl https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 -o cfssljson \
   && chmod +x cfssl cfssljson \
   && mv cfssl cfssljson /usr/local/bin
-
-COPY initialise_kubectl.sh /usr/local/bin/initialise_kubectl.sh \
-  && chmod +x  /usr/local/bin/initialise_kubectl.sh
-
-  
