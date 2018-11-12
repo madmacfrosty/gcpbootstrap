@@ -11,9 +11,15 @@ RUN apk update \
   && update-ca-certificates  \
   && rm -rf /var/cache/apk/*
 
+  https://github.com/helm/helm/archive/v2.11.0.tar.gz
+ARG helm=v2.11.0.tar.gz
 ARG google_sdk=google-cloud-sdk-224.0.0-linux-x86_64.tar.gz
 ENV https_proxy=${https_proxy}
 ENV http_proxy=${http_proxy}
+
+RUN curl https://github.com/helm/helm/archive/${helm} -o ${helm} \
+  && tar -zxvf helm-v2.0.0-linux-amd64.tgz \
+  && rm ${helm}
 
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${google_sdk} -o ${google_sdk} \
   && tar -xzvf ${google_sdk} \
