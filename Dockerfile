@@ -17,7 +17,7 @@ ENV https_proxy=${https_proxy}
 ENV http_proxy=${http_proxy}
 
 RUN curl https://github.com/helm/helm/archive/${helm} -o ${helm} \
-  && tar -zxvf helm-v2.0.0-linux-amd64.tgz \
+  && tar -zxvf ${helm} \
   && rm ${helm}
 
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${google_sdk} -o ${google_sdk} \
