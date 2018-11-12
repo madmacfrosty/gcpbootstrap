@@ -22,7 +22,7 @@ RUN curl https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 -o cfssl \
   && chmod +x cfssl cfssljson \
   && mv cfssl cfssljson /usr/local/bin
 
-COPY initialise_kubectl.sh /usr/local/bin/ \
+COPY initialise_kubectl.sh /usr/local/bin/initialise_kubectl.sh \
   && chmod +x  /usr/local/bin/initialise_kubectl.sh
 
   
