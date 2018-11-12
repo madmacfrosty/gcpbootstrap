@@ -1,7 +1,8 @@
 FROM alpine
 
 COPY initialise_kubectl.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/initialise_kubectl.sh
+COPY generate_certificates.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/initialise_kubectl.sh /usr/local/bin/generate_certificates.sh
 
 RUN apk update \
   && apk add ca-certificates \
