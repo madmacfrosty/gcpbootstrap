@@ -17,6 +17,6 @@ if [ -z "$password" ]; then echo "Admin password is unset" && usage; fi
 gcloud components install --quiet kubectl
 gcloud container clusters get-credentials "$cluster" --zone "$zone"
 kubectl config set-credentials "admin/$cluster" --username=admin --password="$password"
-kubectl config set-context sysadmin --user="admin/$cluster" --cluster="gke_$project_$zone_$cluster"
+kubectl config set-context sysadmin --user="admin/$cluster" --cluster="gke_${project}_${zone}_${cluster}"
 kubectl config use-context sysadmin
 kubectl cluster-info
