@@ -1,11 +1,13 @@
 FROM alpine
 
 COPY initialise_kubectl.sh /usr/local/bin/
+COPY initialise_helm.sh /usr/local/bin/
 COPY generate_certificate.sh /usr/local/bin/
 COPY generate_ca.sh /usr/local/bin/
 COPY create_namespace.sh /usr/local/bin/
 RUN cd /usr/local/bin \
-  && chmod +x initialise_kubectl.sh generate_ca.sh generate_certificate.sh create_namespace.sh
+  && chmod +x initialise_kubectl.sh initialise_helm.sh create_namespace.sh \
+     generate_ca.sh generate_certificate.sh 
 
 RUN apk update \
   && apk add ca-certificates \
