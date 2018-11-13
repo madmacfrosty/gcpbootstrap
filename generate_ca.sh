@@ -41,33 +41,3 @@ EOF
 
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 }
-
-{
-
-cat > tiller-csr.json <<EOF
-{
-  "CN": "tiller",
-  "key": {
-    "algo": "rsa",
-    "size": 2048
-  },
-  "names": [
-    {
-      "C": "UK",
-      "L": "Edinburgh",
-      "O": "system:masters",
-      "OU": "Tiller"      
-    }
-  ]
-}
-EOF
-
-cfssl gencert \
-  -ca=ca.pem \
-  -ca-key=ca-key.pem \
-  -config=ca-config.json \
-  -profile=kubernetes \
-  tiller-csr.json | cfssljson -bare tiller
-
-}
-
