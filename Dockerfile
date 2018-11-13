@@ -3,8 +3,9 @@ FROM alpine
 COPY initialise_kubectl.sh /usr/local/bin/
 COPY generate_certificate.sh /usr/local/bin/
 COPY generate_ca.sh /usr/local/bin/
+COPY create_namespace.sh /usr/local/bin/
 RUN cd /usr/local/bin \
-  && chmod +x initialise_kubectl.sh generate_ca.sh generate_certificate.sh
+  && chmod +x initialise_kubectl.sh generate_ca.sh generate_certificate.sh create_namespace.sh
 
 RUN apk update \
   && apk add ca-certificates \
@@ -12,15 +13,19 @@ RUN apk update \
   && apk add --update python \
   && update-ca-certificates  \
   && rm -rf /var/cache/apk/*
-
-ARG helm=v2.11.0.tar.gz
+  
+ARG helm=helm-v2.11.0-linux-amd64.tar.gz
 ARG google_sdk=google-cloud-sdk-224.0.0-linux-x86_64.tar.gz
 ENV https_proxy=${https_proxy}
 ENV http_proxy=${http_proxy}
 
-RUN curl -L https://github.com/helm/helm/archive/${helm} -o ${helm} \
+RUN curl -L https://storage.googleapis.com/kubernetes-helm/${helm} -o ${helm} \
   && tar -xzvf ${helm} \
-  && rm ${helm}
+  && rm ${helm} \
+  && cd linux-amd64 \
+  && mv helm tiller /usr/local/bin \
+  && cd .. \
+  && rm -rf linux-amd64
 
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${google_sdk} -o ${google_sdk} \
   && tar -xzvf ${google_sdk} \

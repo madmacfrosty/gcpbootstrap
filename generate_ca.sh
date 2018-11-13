@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
 
-mkdir /certificates
-cd /certificates
-
 {
 
 cat > ca-config.json <<EOF

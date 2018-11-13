@@ -1,12 +1,10 @@
 #!/usr/bin/env sh
 
-cd /certificates
-
 {
 
 cat > "$1-csr.json" <<EOF
 {
-  "CN": \""$1"\",
+  "CN": "$1",
   "key": {
     "algo": "rsa",
     "size": 2048
@@ -16,7 +14,7 @@ cat > "$1-csr.json" <<EOF
       "C": "UK",
       "L": "Edinburgh",
       "O": "system:masters",
-      "OU": \""$1"\"      
+      "OU": "$1"      
     }
   ]
 }
