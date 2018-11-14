@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-helm --tls --tiller-namespace="$1" stable/etcd-operator --name etcd-operator-release
+helm install --tls --tiller-namespace="$1" --namespace="$1" stable/etcd-operator --name etcd-operator-release

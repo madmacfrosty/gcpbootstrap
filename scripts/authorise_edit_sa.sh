@@ -11,18 +11,7 @@ metadata:
 rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["rolebindings"]
-  verbs: ["create"]
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["clusterroles"]
-  verbs: ["bind"]
-  resourceNames: ["admin","edit","view"]
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["clusterroles"]
-  verbs: ["create"]
-  
+  verbs: ["*"]  
 EOF
 
 cat > binding.yaml <<EOF
@@ -39,15 +28,10 @@ roleRef:
   kind: Role
   name: tiller-manager
   apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: ClusterRole
-  name: tiller-manager
-  apiGroup: rbac.authorization.k8s.io
 EOF
   
 kubectl create -f ./role.yaml
 kubectl create -f ./binding.yaml
 rm role.yaml binding.yaml
-  
 }
 
