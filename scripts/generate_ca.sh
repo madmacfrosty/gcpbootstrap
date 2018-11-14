@@ -2,6 +2,9 @@
 
 {
 
+mkdir -p /certificates
+cd /certificates
+
 cat > ca-config.json <<EOF
 {
   "signing": {
