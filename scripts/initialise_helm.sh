@@ -8,6 +8,8 @@ generate_certificate.sh helm
 
 create_namespace.sh "$1"
 kubectl create sa tiller --namespace "$1"
+authorise_sa.sh "$1"
+
 helm init --tiller-tls --tiller-tls-verify --wait \
    --service-account=tiller \
    --tiller-namespace="$1" \
@@ -18,7 +20,5 @@ helm init --tiller-tls --tiller-tls-verify --wait \
 cp ca.pem $(helm home)/ca.pem
 cp helm.pem $(helm home)/cert.pem
 cp helm-key.pem $(helm home)/key.pem
-
-authorise_sa.sh "$1"
 
 helm ls --tls --tiller-namespace="$1"

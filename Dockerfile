@@ -3,7 +3,8 @@ FROM alpine
 COPY scripts /usr/local/bin/
 COPY resources /usr/local/resources/
 RUN cd /usr/local/bin \
-  && chmod +x initialise_kubectl.sh initialise_helm.sh create_namespace.sh authorise_sa.sh \
+  && chmod +x initialise_kubectl.sh initialise_helm.sh install_etcd.sh \ 
+     create_namespace.sh authorise_sa.sh \
      generate_ca.sh generate_certificate.sh 
 
 RUN apk update \
