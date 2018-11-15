@@ -11,7 +11,7 @@ generate_certificate.sh helm
 create_namespace.sh "$namespace"
 kubectl create sa tiller --namespace "$namespace"
 
-if [ "$namespace" -eq "platform" ]; then
+if [ "$namespace" == "platform" ]; then
   authorise_clusteradmin_sa.sh "$namespace"
 else
   authorise_edit_sa.sh "$namespace"

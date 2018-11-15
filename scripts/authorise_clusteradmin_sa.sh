@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 
-kubectl create rolebinding test-binding --clusterrole=cluster-admin --serviceaccount="$1:tiller" --namespace="$1"
-
+kubectl create clusterrolebinding tiller-cluster-admin-binding --clusterrole=cluster-admin --user="system:serviceaccount:$1:tiller"
 
