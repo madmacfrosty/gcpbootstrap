@@ -23,9 +23,9 @@ cat > "$namespace-csr.json" <<EOF
 EOF
 
 cfssl gencert \
-  -ca=ca.pem \
-  -ca-key=ca-key.pem \
-  -config=ca-config.json \
+  -ca=../ca.pem \
+  -ca-key=../ca-key.pem \
+  -config=../ca-config.json \
   -profile=kubernetes \
   "$namespace-csr.json" | cfssljson -bare "$namespace"
 

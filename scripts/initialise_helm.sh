@@ -22,9 +22,9 @@ helm init --tiller-tls --tiller-tls-verify --wait \
    --tiller-namespace="$namespace" \
    --tiller-tls-cert ./tiller.pem \
    --tiller-tls-key ./tiller-key.pem \
-   --tls-ca-cert ./ca.pem
+   --tls-ca-cert ../ca.pem
    
-cp ca.pem $(helm home)/ca.pem
+cp ../ca.pem $(helm home)/ca.pem
 cp helm.pem $(helm home)/cert.pem
 cp helm-key.pem $(helm home)/key.pem
 
