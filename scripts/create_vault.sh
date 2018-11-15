@@ -69,5 +69,5 @@ EOF
 
 }
 
-kubectl apply -f vault_crd.json 
+kubectl apply -f vault_crd.json --namespace "$1"
 rm vault_crd.json
