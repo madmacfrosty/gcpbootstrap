@@ -1,7 +1,6 @@
 FROM alpine
 
 COPY scripts /usr/local/bin/
-COPY resources /usr/local/resources/
 RUN cd /usr/local/bin && chmod +x *.sh
 
 RUN apk update \
