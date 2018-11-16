@@ -2,6 +2,7 @@
 
 namespace="$1"
 
+helm repo add banzaicloud-stable http://kubernetes-charts.banzaicloud.com/branch/master
 helm install --tls --tiller-namespace="$1" --namespace="$1" banzaicloud-stable/vault-operator --set etcd-operator.enabled=true
 
 {
@@ -60,14 +61,14 @@ spec:
     - type: kubernetes
       roles:
         # Allow every pod in the default namespace to use the secret kv store
-        - name: "$namespace"
-          bound_service_account_names: *
-          bound_service_account_namespaces: "$namespace"
+        - name: $namespace
+          bound_service_account_names: default
+          bound_service_account_namespaces: $namespace
           policies: allow_secrets
           ttl: 1h
 EOF
 
 }
 
-kubectl apply -f vault_crd.json --namespace "$1"
+kubectl apply -f vault_crd.json --namespace "$namespace"
 rm vault_crd.json
