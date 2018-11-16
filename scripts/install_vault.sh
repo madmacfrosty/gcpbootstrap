@@ -31,6 +31,7 @@ spec:
       labels:
         name: vault-operator
     spec:
+	  serviceAccountName: vault-operator
       containers:
       - name: vault-operator
         image: quay.io/coreos/vault-operator:latest
@@ -45,6 +46,68 @@ spec:
               fieldPath: metadata.name
 EOF
 
+cat > rbac.yaml <<EOF
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: vault-operator-role
+rules:
+- apiGroups:
+  - etcd.database.coreos.com
+  resources:
+  - etcdclusters
+  - etcdbackups
+  - etcdrestores
+  verbs:
+  - "*"
+- apiGroups:
+  - vault.security.coreos.com
+  resources:
+  - vaultservices
+  verbs:
+  - "*"
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - "*"
+- apiGroups:
+  - "" # "" indicates the core API group
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - "*"
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: vault-operator-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: vault-operator
+  namespace: $1
+roleRef:
+  kind: Role
+  name: vault-operator-role
+  apiGroup: rbac.authorization.k8s.io
+EOF
+
+
 cat > vault.yaml <<EOF
 apiVersion: "vault.security.coreos.com/v1alpha1"
 kind: "VaultService"
@@ -56,6 +119,7 @@ spec:
 EOF
 
 kubectl apply -f vault_crd.yaml -n $1
+kubectl apply -f rbac.yaml -n $1
 kubectl apply -f deployment.yaml -n $1
 kubectl apply -f vault.yaml -n $1
 
