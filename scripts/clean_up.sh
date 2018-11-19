@@ -6,6 +6,8 @@ kubectl delete clusterrolebinding tiller-cluster-admin-binding
 kubectl delete clusterrolebinding etcd-release-etcd-operator-etcd-backup-operator
 kubectl delete clusterrolebinding etcd-release-etcd-operator-etcd-operator
 kubectl delete clusterrolebinding etcd-release-etcd-operator-etcd-restore-operator
+kubectl delete clusterrolebinding clusteradmin_marc.howarth@gmail.com
+kubectl delete clusterrolebinding clusteradmin_mick.frost@gmail.com
 kubectl delete crd etcdbackups.etcd.database.coreos.com
 kubectl delete crd etcdclusters.etcd.database.coreos.com
 kubectl delete crd etcdrestores.etcd.database.coreos.com
