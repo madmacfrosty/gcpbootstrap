@@ -31,7 +31,7 @@ spec:
       labels:
         name: vault-operator
     spec:
-	  serviceAccountName: vault-operator
+      serviceAccountName: vault-operator
       containers:
       - name: vault-operator
         image: quay.io/coreos/vault-operator:latest
@@ -47,6 +47,13 @@ spec:
 EOF
 
 cat > rbac.yaml <<EOF
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: vault-operator
+
+---
+
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:

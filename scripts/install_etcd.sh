@@ -2,16 +2,18 @@
 
 {
 
-helm install --tls --tiller-namespace=$1 --namespace=$1 \
-  stable/etcd-operator --name etcd-release --set etcdOperator.commandArgs.cluster-wide=true
+helm install --wait --tls --tiller-namespace=$1 --namespace=$1 \
+  stable/etcd-operator --name etcd-release 
+  
+# --set etcdOperator.commandArgs.cluster-wide=true
 
 cat > cluster.yaml <<EOF
 apiVersion: "etcd.database.coreos.com/v1beta2"
 kind: "EtcdCluster"
 metadata:
-  name: "etcd-cluster"  
+  name: "etcd-cluster"
   # annotations:
-  #  etcd.database.coreos.com/scope: clusterwide
+  # etcd.database.coreos.com/scope: clusterwide
 spec:
   size: 3
   version: "3.2.13"

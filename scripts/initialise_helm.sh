@@ -17,6 +17,7 @@ else
   authorise_edit_sa.sh "$namespace"
 fi
 
+# Try client only, copy certs and then install Tiller to avoid x509 error
 helm init --tiller-tls --tiller-tls-verify --wait \
    --service-account=tiller \
    --tiller-namespace="$namespace" \
@@ -28,4 +29,5 @@ cp ../ca.pem $(helm home)/ca.pem
 cp helm.pem $(helm home)/cert.pem
 cp helm-key.pem $(helm home)/key.pem
 
-helm ls --tls --tiller-namespace="$namespace"
+sleep 5
+helm version --tls --tiller-namespace="$namespace"
