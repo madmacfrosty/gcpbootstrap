@@ -15,7 +15,7 @@ do
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: clusteradmin_$1
+  name: clusteradmin_$user
 subjects:
 - kind: User
   name: $1
